@@ -1,3 +1,9 @@
+<?php
+/*
+Template Name: home
+
+*/
+?>
 <?php get_header(); ?>
 <div class="game-banners">
     <div class="game-banners__wrapper">
@@ -327,7 +333,7 @@
                     setup_postdata($post);
                 ?>
                     <div class="swiper-slide">
-                        <div class="game-sets__slide-wrapper" style="background-image: url(<? echo get_the_post_thumbnail_url(); ?>)">
+                        <a class="game-sets__slide-wrapper" href="<?php the_permalink(); ?>" style="background-image: url(<? echo get_the_post_thumbnail_url(); ?>)">
                             <div class="slide-wrapper__content">
                                 <div class="sets-icon">
                                     <img src="<? echo get_template_directory_uri(); ?>/images/sets.svg" alt="">
@@ -346,7 +352,7 @@
                                     <!-- Обновления 01/02/22 -->
                                 </div>
                             </div>
-                        </div>
+                        </a>
                     </div>
 
                 <?php
@@ -467,7 +473,7 @@
         foreach ($posts as $post) :
             setup_postdata($post);
         ?>
-            <a class="game-reviews__game1 game-banner" href="#" style="background-image: url(<? echo get_the_post_thumbnail_url(); ?>);">
+            <a class="game-reviews__game1 game-banner" href="<?php the_permalink(); ?>" style="background-image: url(<? echo get_the_post_thumbnail_url(); ?>);">
                 <div class="game-banner__content">
                     <div class="game-banner__announcement">
                         <div>Review</div>
@@ -487,7 +493,7 @@
                                     <img src="<? echo get_template_directory_uri(); ?>/images/icon-view.svg" alt="">
                                 </div>
                                 <div class="views__number">
-                                    22
+                                    <?php if(function_exists('the_views')) { the_views(); } ?>
                                 </div>
                             </div>
                         </div>
@@ -528,37 +534,6 @@
 </div>
 <!-- <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button> -->
 </main>
-
-
-
-
-
-
-<?php
-$params = array(
-    'post_type' => 'game_sets',
-);
-
-$posts = get_posts($params);
-
-foreach ($posts as $post) :
-    setup_postdata($post);
-?>
-    <h1>
-        <? the_title(); ?>
-    </h1>
-    <? echo get_the_post_thumbnail_url(); ?>
-<?php
-endforeach;
-wp_reset_postdata();
-
-
-?>
-
-
-
-
-
 
 
 <?php get_footer(); ?>
