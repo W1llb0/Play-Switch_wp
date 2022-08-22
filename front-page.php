@@ -7,7 +7,69 @@ Template Name: home
 <?php get_header(); ?>
 <div class="game-banners">
     <div class="game-banners__wrapper">
-        <a href="#" class="game-banner1 game-banner">
+
+        <?php
+        $params = array(
+            'post_type' => 'game_reviews',
+            'posts_per_page'    => 6,
+            'meta_query' => array(
+                array(
+                    'key' => 'main_check',
+                    'compare' => '==',
+                    'value' => '1'
+                )
+            )
+        );
+
+        $posts = get_posts($params);
+
+        foreach ($posts as $key => $post) :
+            setup_postdata($post);
+        ?>
+            <a href="<?php the_permalink(); ?>" class="game-banner <? echo ($key == 0 ? 'game-banner1' : '') ?>" style="background-image: url(<? echo get_the_post_thumbnail_url(); ?>)">
+                <div class="game-banner__content">
+                    <div class="game-banner__announcement">
+                        <div><?php the_field('announcement') ?></div>
+                    </div>
+                    <div class="game-banner__items">
+                        <div class="game-banner__item">
+                            <div class="game-banner__name">
+                                <? the_title(); ?>
+                            </div>
+                            <div class="game-banner__section">
+                                <?php the_field('subtitle') ?>
+                            </div>
+                        </div>
+                        <div class="views-wrapper">
+                            <div class="game-banner__views">
+                                <div class="views__eye">
+                                    <img src="<? echo get_template_directory_uri(); ?>/images/icon-view.svg" alt="">
+                                </div>
+                                <div class="views__number">
+                                    <?php if (function_exists('the_views')) {
+                                        the_views();
+                                    } ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        <?php
+        endforeach;
+        wp_reset_postdata();
+        ?>
+
+
+
+
+
+
+
+
+
+
+        <!-- <a href="#" class="game-banner1 game-banner">
             <div class="game-banner__content">
                 <div class="game-banner__announcement">
                     <div>Review</div>
@@ -168,7 +230,7 @@ Template Name: home
                     </div>
                 </div>
             </div>
-        </a>
+        </a> -->
         <div class="controllers-image">
             <img src="<? echo get_template_directory_uri(); ?>/images/controllers-icon.png" alt="">
         </div>
@@ -333,28 +395,29 @@ Template Name: home
                     setup_postdata($post);
                 ?>
                     <div class="swiper-slide">
-                        <a class="game-sets__slide-wrapper" href="<?php the_permalink(); ?>" style="background-image: url(<? echo get_the_post_thumbnail_url(); ?>)">
-                            <div class="slide-wrapper__content">
-                                <div class="sets-icon">
-                                    <img src="<? echo get_template_directory_uri(); ?>/images/sets.svg" alt="">
-                                </div>
-                                <div class="slide-wrapper__title">
-                                    <? the_title(); ?>
-                                </div>
-                                <div class="slide-wrapper__updates">
-                                    <?
-                                    $u_time = get_the_time('U');
-                                    $u_modified_time = get_the_modified_time('U');
-                                    echo "<p>Обновления ";
-                                    the_modified_time('d/m/Y');
-                                    echo "</p> ";
-                                    ?>
-                                    <!-- Обновления 01/02/22 -->
+                        <a href="<?php the_permalink(); ?>">
+                            <div class="game-sets__slide-wrapper" style="background-image: url(<? echo get_the_post_thumbnail_url(); ?>)">
+                                <div class="slide-wrapper__content">
+                                    <div class="sets-icon">
+                                        <img src="<? echo get_template_directory_uri(); ?>/images/sets.svg" alt="">
+                                    </div>
+                                    <div class="slide-wrapper__title">
+                                        <? the_title(); ?>
+                                    </div>
+                                    <div class="slide-wrapper__updates">
+                                        <?
+                                        $u_time = get_the_time('U');
+                                        $u_modified_time = get_the_modified_time('U');
+                                        echo "<p>Обновления ";
+                                        the_modified_time('d/m/Y');
+                                        echo "</p> ";
+                                        ?>
+                                        <!-- Обновления 01/02/22 -->
+                                    </div>
                                 </div>
                             </div>
                         </a>
                     </div>
-
                 <?php
                 endforeach;
                 wp_reset_postdata();
@@ -466,17 +529,17 @@ Template Name: home
         $params = array(
             'post_type' => 'game_reviews',
             'orderby' => 'date',
+            'posts_per_page'    => 2,
         );
 
         $posts = get_posts($params);
-
         foreach ($posts as $post) :
             setup_postdata($post);
         ?>
             <a class="game-reviews__game1 game-banner" href="<?php the_permalink(); ?>" style="background-image: url(<? echo get_the_post_thumbnail_url(); ?>);">
                 <div class="game-banner__content">
                     <div class="game-banner__announcement">
-                        <div>Review</div>
+                        <div><?php the_field('announcement') ?></div>
                     </div>
                     <div class="game-banner__items">
                         <div class="game-banner__item">
@@ -484,7 +547,7 @@ Template Name: home
                                 <? the_title(); ?>
                             </div>
                             <div class="game-banner__section">
-                                Scott Pilgrim vs world
+                                <?php the_field('subtitle') ?>
                             </div>
                         </div>
                         <div class="views-wrapper">
@@ -493,7 +556,9 @@ Template Name: home
                                     <img src="<? echo get_template_directory_uri(); ?>/images/icon-view.svg" alt="">
                                 </div>
                                 <div class="views__number">
-                                    <?php if(function_exists('the_views')) { the_views(); } ?>
+                                    <?php if (function_exists('the_views')) {
+                                        the_views();
+                                    } ?>
                                 </div>
                             </div>
                         </div>

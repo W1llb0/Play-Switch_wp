@@ -15,6 +15,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Jura:wght@300;400;500;600;700&family=Manrope:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="<? echo get_template_directory_uri(); ?>/styles/style.css">
     <link rel="stylesheet" href="https://unpkg.com/swiper@8/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="<? echo get_template_directory_uri(); ?>/lightbox/dist/css/lightbox.css">
     <title>Play Switch</title>
 </head>
 <body class="body" id="body">
