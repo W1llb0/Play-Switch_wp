@@ -71,6 +71,7 @@ function topFunction() {
 var detailSwiper = new Swiper("#swiper1", {
   spaceBetween: 10,
   slidesPerView: 3,
+  allowTouchMove: false,
   freeMode: true,
   watchSlidesProgress: true,
   breakpoints: {
@@ -81,6 +82,7 @@ var detailSwiper = new Swiper("#swiper1", {
 });
 var detailSwiper2 = new Swiper("#swiper2", {
   spaceBetween: 10,
+  allowTouchMove: false,
   navigation: {
     nextEl: '.game-sets-slider__next',
     prevEl: '.game-sets-slider__prev'

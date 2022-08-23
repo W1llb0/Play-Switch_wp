@@ -1522,10 +1522,11 @@ a {
 
 .detail-slider1 {
     display: flex;
-    align-items: center;
-    justify-content: center;
+    align-items: flex-start;
+    justify-content: flex-start;
     height: 100%;
     padding: 10px;
+    max-height: 455px;
 }
 
 /* .detail-slider1 .swiper-slide-active {
