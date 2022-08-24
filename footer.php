@@ -1,3 +1,8 @@
+<div class="go-top-button" onclick="topFunction()" id="myBtn">
+    <img src="<? echo get_template_directory_uri(); ?>/images/arrow-up.svg" alt="">
+
+</div>
+</main>
 <footer class="footer">
             <div class="container footer__container">
                 <div class="relevance">
