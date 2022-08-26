@@ -17,11 +17,11 @@ foreach ($posts as $key => $post) :
         continue;
     }
     $genre = get_field('genre');
-    echo ('<pre>');
-    print_r($genre);
-    echo ('</pre>');
+    // echo ('<pre>');
+    // print_r($genre);
+    // echo ('</pre>');
     foreach ($genre as $row) {
-        echo $row['genre_item'];
+        // echo $row['genre_item'];
 
         if (!in_array($row['genre_item'], $all_genres)) :
             array_push($all_genres, $row['genre_item']);
@@ -31,17 +31,17 @@ foreach ($posts as $key => $post) :
         continue;
     }
     $developer = get_field('developer');
-    echo ('<pre>');
-    print_r($developer);
-    echo ('</pre>');
+    // echo ('<pre>');
+    // print_r($developer);
+    // echo ('</pre>');
     foreach ($developer as $row) {
-        echo $row['developer_item'];
+        // echo $row['developer_item'];
 
         if (!in_array($row['developer_item'], $all_developers)) :
             array_push($all_developers, $row['developer_item']);
         endif;
     }
-
+    foreach ($posts as $post) {
         $release_date = get_field('release_date');
         // $release_date = mb_substr($release_date, 0, 4);
         $timestamp = strtotime($release_date);
@@ -49,19 +49,24 @@ foreach ($posts as $key => $post) :
         if (!in_array($release_date, $year)) :
             array_push($year, $release_date);
         endif;
-
+    }
 ?>
 
 <? endforeach;
 wp_reset_postdata();
+array_splice($year, 0, 1);
+// unset($year[0]);
 ?>
 
 
-<pre>
-    <? print_r($all_genres); ?>
-    <? print_r($all_developers); ?>
-    <? print_r($year); ?>
-</pre>
+<!-- <pre>
+    <? //print_r($all_genres); 
+    ?>
+    <? //print_r($all_developers); 
+    ?>
+    <? //print_r($year); 
+    ?>
+</pre> -->
 
 
 <div class="navigation-road">
@@ -139,7 +144,7 @@ wp_reset_postdata();
                                 </div>
                             </div>
                         </div>
-                        <a class="increase__button" data-lightbox="test" href="<? echo get_template_directory_uri(); ?>/images/detail-slider2__image.png">
+                        <a id="increaseButton" class="increase__button" data-lightbox="test" href="<? echo get_template_directory_uri(); ?>/images/detail-slider2__image.png">
                             <div class="increase__wrapper">
                                 <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M0.000488281 17.1311L21.5948 0H60.0005C62.2096 0 64.0005 1.79086 64.0005 4V44.1837L41.872 64H4.00048C1.79135 64 0.000488281 62.2091 0.000488281 60V17.1311Z" fill="white" />
@@ -169,7 +174,7 @@ wp_reset_postdata();
                                     ?>
                                         <div class="swiper-slide">
                                             <div class="detail-slide__wrapper">
-                                                <img src="<? echo $sub_value; ?>" alt="">
+                                                <img id="gameImageLoop" src="<? echo $sub_value; ?>" alt="">
                                             </div>
                                         </div>
                                     <?
@@ -267,7 +272,11 @@ wp_reset_postdata();
                         <span>Дата выхода:</span>
                     </div>
                     <div class="release-date__content">
-                        <? the_field('release_date'); ?>
+                        <? //the_field('release_date'); 
+                        $year_output = strtotime(get_field('release_date'));
+                        $year_output = date('d M Y', $year_output);
+                        print_r($year_output)
+                        ?>
                     </div>
                 </div>
                 <div class="read-more-button__wrapper">
@@ -285,10 +294,10 @@ wp_reset_postdata();
         </div>
     </div>
     <div class="game-catalog">
-        <div class="game-catalog__header">
+        <form action="<? echo get_page_link(120); ?>" method="GET" class="game-catalog__header">
             <div class="game-catalog__header-wrapper">
-                <div class="game-catalog__developer-section game-catalog-section">
-                    <div class="game-catalog-section__title">
+                <select name="developer" class="game-catalog__developer-section game-catalog-section">
+                    <option value='' disabled selected class="game-catalog-section__title">
                         <div class="game-catalog-section__title-name">
                             Издатель
                         </div>
@@ -297,24 +306,17 @@ wp_reset_postdata();
                                 <path d="M12 16.5C11.8082 16.5 11.6162 16.4267 11.4698 16.2803L3.9698 8.7803C3.67673 8.48723 3.67673 8.01267 3.9698 7.7198C4.26286 7.42692 4.73742 7.42673 5.0303 7.7198L12 14.6895L18.9698 7.7198C19.2629 7.42673 19.7374 7.42673 20.0303 7.7198C20.3232 8.01286 20.3234 8.48742 20.0303 8.7803L12.5303 16.2803C12.3839 16.4267 12.1919 16.5 12 16.5Z" fill="#929292" />
                             </svg>
                         </div>
-                    </div>
+                    </option>
                     <div class="game-catalog-section__content">
-                        <a class="game-catalog-section__item" href="#">
-                            White Rabbit
-                        </a>
-                        <a class="game-catalog-section__item" href="#">
-                            Skeleton Crew Studios
-                        </a>
-                        <a class="game-catalog-section__item" href="#">
-                            Explosm
-                        </a>
-                        <a class="game-catalog-section__item" href="#">
-                            White Rabbit
-                        </a>
+                        <? foreach ($all_developers as $row) : ?>
+                            <option class="game-catalog-section__item" href="#">
+                                <? echo $row . "<br>" ?>
+                            </option>
+                        <? endforeach; ?>
                     </div>
-                </div>
-                <div class="game-catalog__genre-section game-catalog-section">
-                    <div class="game-catalog-section__title">
+                </select>
+                <select name="genre" class="game-catalog__genre-section game-catalog-section">
+                    <option value="" disabled selected class="game-catalog-section__title">
                         <div class="game-catalog-section__title-name">
                             Жанр
                         </div>
@@ -323,24 +325,17 @@ wp_reset_postdata();
                                 <path d="M12 16.5C11.8082 16.5 11.6162 16.4267 11.4698 16.2803L3.9698 8.7803C3.67673 8.48723 3.67673 8.01267 3.9698 7.7198C4.26286 7.42692 4.73742 7.42673 5.0303 7.7198L12 14.6895L18.9698 7.7198C19.2629 7.42673 19.7374 7.42673 20.0303 7.7198C20.3232 8.01286 20.3234 8.48742 20.0303 8.7803L12.5303 16.2803C12.3839 16.4267 12.1919 16.5 12 16.5Z" fill="#929292" />
                             </svg>
                         </div>
-                    </div>
+                    </option>
                     <div class="game-catalog-section__content">
-                        <a class="game-catalog-section__item" href="#">
-                            White Rabbit
-                        </a>
-                        <a class="game-catalog-section__item" href="#">
-                            Skeleton Crew Studios
-                        </a>
-                        <a class="game-catalog-section__item" href="#">
-                            Explosm
-                        </a>
-                        <a class="game-catalog-section__item" href="#">
-                            White Rabbit
-                        </a>
+                        <? foreach ($all_genres as $row) : ?>
+                            <option class="game-catalog-section__item" href="#">
+                                <? echo $row . "<br>" ?>
+                            </option>
+                        <? endforeach; ?>
                     </div>
-                </div>
-                <div class="game-catalog__release-date-section game-catalog-section">
-                    <div class="game-catalog-section__title">
+                </select>
+                <select name="year" class="game-catalog__release-date-section game-catalog-section">
+                    <option value disabled selected class="game-catalog-section__title">
                         <div class="game-catalog-section__title-name">
                             Год выхода
                         </div>
@@ -349,26 +344,19 @@ wp_reset_postdata();
                                 <path d="M12 16.5C11.8082 16.5 11.6162 16.4267 11.4698 16.2803L3.9698 8.7803C3.67673 8.48723 3.67673 8.01267 3.9698 7.7198C4.26286 7.42692 4.73742 7.42673 5.0303 7.7198L12 14.6895L18.9698 7.7198C19.2629 7.42673 19.7374 7.42673 20.0303 7.7198C20.3232 8.01286 20.3234 8.48742 20.0303 8.7803L12.5303 16.2803C12.3839 16.4267 12.1919 16.5 12 16.5Z" fill="#929292" />
                             </svg>
                         </div>
-                    </div>
+                    </option>
                     <div class="game-catalog-section__content">
-                        <a class="game-catalog-section__item" href="#">
-                            White Rabbit
-                        </a>
-                        <a class="game-catalog-section__item" href="#">
-                            Skeleton Crew Studios
-                        </a>
-                        <a class="game-catalog-section__item" href="#">
-                            Explosm
-                        </a>
-                        <a class="game-catalog-section__item" href="#">
-                            White Rabbit
-                        </a>
+                        <? foreach ($year as $row) : ?>
+                            <option class="game-catalog-section__item" href="#">
+                                <? echo $row . "<br>" ?>
+                            </option>
+                        <? endforeach; ?>
                     </div>
-                </div>
+                </select>
             </div>
-            <a class="game-catalog__search-button" href="#">
+            <button class="game-catalog__search-button" href="#">
                 <svg width="164" height="64" viewBox="0 0 164 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M0 17.1311L21.5943 0H160C162.209 0 164 1.79086 164 4V44.1837L141.872 64H3.99999C1.79086 64 0 62.2091 0 60V17.1311Z" fill="#EC1A25" />
+                    <path class="button__svg" d="M0 17.1311L21.5943 0H160C162.209 0 164 1.79086 164 4V44.1837L141.872 64H3.99999C1.79086 64 0 62.2091 0 60V17.1311Z" fill="#EC1A25" />
                 </svg>
                 <div class="search-button__content">
                     <div class="search-button__img">
@@ -387,8 +375,8 @@ wp_reset_postdata();
                         Найти
                     </div>
                 </div>
-            </a>
-        </div>
+            </button>
+        </form>
         <div class="game-catalog__content">
             <a class="game-catalog__game1 game-catalog__game" href="#">
                 <div class="current-game-content">

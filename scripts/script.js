@@ -92,6 +92,15 @@ var detailSwiper2 = new Swiper("#swiper2", {
   },
 });
 
+detailSwiper2.on('slideChange', function () {
+  const loopButton = document.getElementById('increaseButton');
+  
+  const activeSlide = detailSwiper2.slides[detailSwiper2.activeIndex];
+  let activePhoto = activeSlide.querySelector('img').src;
+
+  loopButton.setAttribute('href', activePhoto);
+});
+
 const gameCatalogSection = document.querySelectorAll(".game-catalog-section");
 gameCatalogSection.forEach(function (item) {
   item.addEventListener("click", function () {
