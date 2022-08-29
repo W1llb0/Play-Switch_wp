@@ -108,6 +108,10 @@ gameCatalogSection.forEach(function (item) {
   });
 });
 
+document.getElementById("game-catalog-section-content").addEventListener("click", function(){
+  document.getElementById("game-catalog-section").classList.remove("active");
+});
+
 const search = document.querySelectorAll(".search");
 search.forEach(function (item) {
   item.addEventListener("click", function () {

@@ -144,7 +144,16 @@ array_splice($year, 0, 1);
                                 </div>
                             </div>
                         </div>
-                        <a id="increaseButton" class="increase__button" data-lightbox="test" href="<? echo get_template_directory_uri(); ?>/images/detail-slider2__image.png">
+                        <a id="increaseButton" class="increase__button" data-lightbox="test" 
+                                    <?
+                                    while (have_rows('game_slider_repeater')) : the_row();
+                                        $sub_value = get_sub_field('game_slider_img');
+                                    ?>
+                                    href="<? echo $sub_value ?>"
+                                    <?
+                                    endwhile;
+                                    ?>
+                        >
                             <div class="increase__wrapper">
                                 <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M0.000488281 17.1311L21.5948 0H60.0005C62.2096 0 64.0005 1.79086 64.0005 4V44.1837L41.872 64H4.00048C1.79135 64 0.000488281 62.2091 0.000488281 60V17.1311Z" fill="white" />
@@ -293,66 +302,85 @@ array_splice($year, 0, 1);
             </div>
         </div>
     </div>
+    <? $i = 0 ?>
     <div class="game-catalog">
         <form action="<? echo get_page_link(120); ?>" method="GET" class="game-catalog__header">
             <div class="game-catalog__header-wrapper">
-                <select name="developer" class="game-catalog__developer-section game-catalog-section">
-                    <option value='' disabled selected class="game-catalog-section__title">
+                <div name="developer" class="game-catalog__developer-section game-catalog-section" id="game-catalog-section">
+                    <div value='' disabled selected class="game-catalog-section__title">
                         <div class="game-catalog-section__title-name">
-                            Издатель
+                            <div class="game-catalog-section__title-old"> Издатель </div>
+                            <div class="game-catalog-section__title-new">
+
+                            </div>
                         </div>
                         <div class="game-catalog-section__arrow">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M12 16.5C11.8082 16.5 11.6162 16.4267 11.4698 16.2803L3.9698 8.7803C3.67673 8.48723 3.67673 8.01267 3.9698 7.7198C4.26286 7.42692 4.73742 7.42673 5.0303 7.7198L12 14.6895L18.9698 7.7198C19.2629 7.42673 19.7374 7.42673 20.0303 7.7198C20.3232 8.01286 20.3234 8.48742 20.0303 8.7803L12.5303 16.2803C12.3839 16.4267 12.1919 16.5 12 16.5Z" fill="#929292" />
                             </svg>
                         </div>
-                    </option>
-                    <div class="game-catalog-section__content">
+                    </div>
+                    <div class="game-catalog-section__content" id="game-catalog-section-content">
                         <? foreach ($all_developers as $row) : ?>
-                            <option class="game-catalog-section__item" href="#">
+                            <div class="inputs-wrapper">
+                                <input type="radio" class="game-catalog-section__input" id="developer-input<? echo ($i=$i+1); ?>" name="developer-input">
+                            </div>
+                            <label class="game-catalog-section__item" for="developer-input<? echo ($i); ?>">
                                 <? echo $row . "<br>" ?>
-                            </option>
+                            </label>
                         <? endforeach; ?>
                     </div>
-                </select>
-                <select name="genre" class="game-catalog__genre-section game-catalog-section">
-                    <option value="" disabled selected class="game-catalog-section__title">
+                </div>
+                <div name="genre" class="game-catalog__genre-section game-catalog-section">
+                    <div value='' disabled selected class="game-catalog-section__title">
                         <div class="game-catalog-section__title-name">
-                            Жанр
+                            <div class="game-catalog-section__title-old"> Жанр </div>
+                            <div class="game-catalog-section__title-new">
+
+                            </div>
                         </div>
                         <div class="game-catalog-section__arrow">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M12 16.5C11.8082 16.5 11.6162 16.4267 11.4698 16.2803L3.9698 8.7803C3.67673 8.48723 3.67673 8.01267 3.9698 7.7198C4.26286 7.42692 4.73742 7.42673 5.0303 7.7198L12 14.6895L18.9698 7.7198C19.2629 7.42673 19.7374 7.42673 20.0303 7.7198C20.3232 8.01286 20.3234 8.48742 20.0303 8.7803L12.5303 16.2803C12.3839 16.4267 12.1919 16.5 12 16.5Z" fill="#929292" />
                             </svg>
                         </div>
-                    </option>
+                    </div>
                     <div class="game-catalog-section__content">
                         <? foreach ($all_genres as $row) : ?>
-                            <option class="game-catalog-section__item" href="#">
+                            <div class="inputs-wrapper">
+                                <input type="radio" class="game-catalog-section__input" id="genre-input<? echo ($i=$i+1); ?>" name="genre-input">
+                            </div>
+                            <label class="game-catalog-section__item" for="genre-input<? echo ($i); ?>">
                                 <? echo $row . "<br>" ?>
-                            </option>
+                            </label>
                         <? endforeach; ?>
                     </div>
-                </select>
-                <select name="year" class="game-catalog__release-date-section game-catalog-section">
-                    <option value disabled selected class="game-catalog-section__title">
+                </div>
+                <div name="year" class="game-catalog__release-date-section game-catalog-section">
+                    <div value='' disabled selected class="game-catalog-section__title">
                         <div class="game-catalog-section__title-name">
-                            Год выхода
+                            <div class="game-catalog-section__title-old"> Год выхода </div>
+                            <div class="game-catalog-section__title-new">
+
+                            </div>
                         </div>
                         <div class="game-catalog-section__arrow">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M12 16.5C11.8082 16.5 11.6162 16.4267 11.4698 16.2803L3.9698 8.7803C3.67673 8.48723 3.67673 8.01267 3.9698 7.7198C4.26286 7.42692 4.73742 7.42673 5.0303 7.7198L12 14.6895L18.9698 7.7198C19.2629 7.42673 19.7374 7.42673 20.0303 7.7198C20.3232 8.01286 20.3234 8.48742 20.0303 8.7803L12.5303 16.2803C12.3839 16.4267 12.1919 16.5 12 16.5Z" fill="#929292" />
                             </svg>
                         </div>
-                    </option>
+                    </div>
                     <div class="game-catalog-section__content">
                         <? foreach ($year as $row) : ?>
-                            <option class="game-catalog-section__item" href="#">
+                            <div class="inputs-wrapper">
+                                <input type="radio" class="game-catalog-section__input" id="year-input<? echo ($i=$i+1); ?>" name="year-input">
+                            </div>
+                            <label class="game-catalog-section__item" for="year-input<? echo ($i); ?>">
                                 <? echo $row . "<br>" ?>
-                            </option>
+                            </label>
                         <? endforeach; ?>
                     </div>
-                </select>
+                </div>
             </div>
             <button class="game-catalog__search-button" href="#">
                 <svg width="164" height="64" viewBox="0 0 164 64" fill="none" xmlns="http://www.w3.org/2000/svg">
